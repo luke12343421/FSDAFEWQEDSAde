@@ -1,0 +1,18 @@
+{
+"prix": {
+    "r": 1000,
+    "u": 2,
+    "c": 11e9,
+    "d": 100,
+    "ruby": 12e9
+},
+"mutiplication":{
+    "Rebirths": 3,
+    "Up": 2,
+    "Coal": 10,
+    "dev": 10,
+    "ruby": 20,
+    "Diamond": 50
+}
+
+}

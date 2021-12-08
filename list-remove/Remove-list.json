@@ -1,0 +1,13 @@
+{
+    "Ruby": [
+        "Coal",
+        "Click",
+        "Up",
+        "Repin",
+        "DEV",
+        "ruby"
+    ],
+    "Upgrade": ["Click"],
+    "Coal": ["Click", "Repin", "Up"],
+    "Repin": ["Click", "Up"]
+}
