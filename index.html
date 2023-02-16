@@ -167,7 +167,7 @@ body {background-color: black;}
         if (x > paddleX && x < paddleX + paddleWidth) {
           dy = Math.floor(Math.random() * -dy - dd);
           points++
-          dx++; dd++
+          dx++; dd += 0.05
         } else {
 
           document.location.reload();
