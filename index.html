@@ -51,12 +51,23 @@ body {background-color: black;}
     let speed = 1;
     let timem = 0
     let timesm = 0
-    function restest(){
+    let Start = false;
+    function restest(a){
+        if(a == true) {
+            document.getElementById("gameContainer").removeChild(canvas)
+            points = 0;
+     time = 0;
+     speed = 1;
+     timem = 0;
+     timesm = 0;
+     StartGame()
+        }
      points = 0;
      time = 0;
      speed = 1;
      timem = 0;
      timesm = 0;
+     Start = false
       document.querySelector(".menu").style.display = "flex";
       // flex
     }
@@ -64,6 +75,7 @@ body {background-color: black;}
       
     }
     function StartGame() {
+        Start = true
       document.querySelector(".menu").style.display = "none";
       var elementD = document.getElementById('gameContainer');
       elementD.style.height = 1000
@@ -82,7 +94,7 @@ body {background-color: black;}
     // Set up the ball
     let x = canvas.width / 2;
     let y = canvas.height - 30;
-    let dx = 5;
+    let dx = Math.floor(Math.random() * 6) + 3;
     let dy = -5;
     let dd = 0;
     let ballRadius = 13.3;
@@ -147,6 +159,7 @@ body {background-color: black;}
       }
       x += dx + dd;
       y += dy + -dd;
+      if(x > 1020)  restest(true)
       //x += Math.floor(Math.random() * x + dx > canvas.width - ballRadius || x + dx < ballRadius ? (Math.floor(Math.random() * 7) + 3):1) + dx;
       //y += Math.floor(Math.random() * x + dx > canvas.width - ballRadius || x + dx < ballRadius ? (Math.floor(Math.random() * 7) + 3):1) + dy;
       ctx.fillText(`x: ${x.toFixed(1)} dx: ${dx.toFixed(1)} y: ${y.toFixed(1)} dy: ${dy.toFixed(1)}`, 200, 90)
@@ -204,6 +217,7 @@ body {background-color: black;}
     }
     function timeset(params) {
       time += 1
+      timesm = (time * 1000).toFixed(1)
     }
     function timeMset(params) {
       if (timem == 100) {
@@ -215,9 +229,17 @@ body {background-color: black;}
 
     }
     draw()
-    setInterval(addSpeed, (10 * 1000));
-    setInterval(timeMset, 1);
-    setInterval(timeset, 1000);
+function LocalRestartFunction() {
+        if(Start == false) return;  
+    setTimeout(() => {
+        timeset()
+        LocalRestartFunction()
+    }, 1000);     
+    
+    }
+    LocalRestartFunction()
+
+
     }
   </script>
 </body>
