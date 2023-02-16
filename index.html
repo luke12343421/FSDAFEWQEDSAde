@@ -170,8 +170,6 @@ body {background-color: black;}
         default:
           break;
       }
-      if (y => canvas.height * 2 - ballRadius) {
-      return document.location.reload()};
       if (-1 + y + dy < ballRadius) {
         dy = -dy + dd;
         dx = dx + dd
@@ -181,8 +179,7 @@ body {background-color: black;}
           points++
           dx++; dd += 0.05
         } else {
-
-          document.location.reload();
+          restest()
         }
       }
       ctx.font = "16px Arial";
