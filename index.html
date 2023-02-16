@@ -51,14 +51,26 @@ body {background-color: black;}
     let speed = 1;
     let timem = 0
     let timesm = 0
+    function restest(){
+     points = 0;
+     time = 0;
+     speed = 1;
+     timem = 0;
+     timesm = 0;
+      document.querySelector(".menu").style.display = "flex";
+            var elementD = document.getElementById('gameContainer');
+   
+      elementD.style.height = 0
+      
+      elementD.style.width = 0
+      // flex
+    }
     function showconfig(params) {
       
     }
     function StartGame() {
       document.querySelector(".menu").style.display = "none";
       var elementD = document.getElementById('gameContainer');
-      console.log(elementD.style)
-      console.log(elementD.style.width)
       elementD.style.height = 1000
       
       elementD.style.width = 500
