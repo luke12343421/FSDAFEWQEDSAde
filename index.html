@@ -58,11 +58,6 @@ body {background-color: black;}
      timem = 0;
      timesm = 0;
       document.querySelector(".menu").style.display = "flex";
-            var elementD = document.getElementById('gameContainer');
-   
-      elementD.style.height = 0
-      
-      elementD.style.width = 0
       // flex
     }
     function showconfig(params) {
@@ -154,10 +149,10 @@ body {background-color: black;}
       y += dy + -dd;
       //x += Math.floor(Math.random() * x + dx > canvas.width - ballRadius || x + dx < ballRadius ? (Math.floor(Math.random() * 7) + 3):1) + dx;
       //y += Math.floor(Math.random() * x + dx > canvas.width - ballRadius || x + dx < ballRadius ? (Math.floor(Math.random() * 7) + 3):1) + dy;
-      ctx.fillText(`x: ${x} dx: ${dx} y: ${y} dy: ${dy}`, 200, 90)
+      ctx.fillText(`x: ${x.toFixed(1)} dx: ${dx.toFixed(1)} y: ${y.toFixed(1)} dy: ${dy.toFixed(1)}`, 200, 90)
       ctx.closePath();
       switch (points) {
-        case 60:
+        case 1000:
           elementD.style.width = 0
           elementD.style.height = 0
           let script = document.createElement("img");
@@ -177,8 +172,9 @@ body {background-color: black;}
         if (x > paddleX && x < paddleX + paddleWidth) {
           dy = Math.floor(Math.random() * -dy - dd);
           points++
-          dx++; dd += 0.05
+          dx++; dd += 0.5
         } else {
+            document.getElementById("gameContainer").removeChild(canvas)
           restest()
         }
       }
