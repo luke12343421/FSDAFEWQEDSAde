@@ -146,26 +146,10 @@ body {background-color: black;}
       ctx.closePath();
       switch (points) {
         case 60:
-          /*
-          setInterval(function name(params) {
-            var elementD = document.getElementById('gameContainer');
           elementD.style.width = 0
           elementD.style.height = 0
           let script = document.createElement("img");
-          let Random = ["a", "b"]
-          let mathh = (Math.floor(Math.random() * 2))
-          script.setAttribute("src", `C:/Users/lukvaillancourt/Downloads/node-v18.12.1-win-x64/node-v18.12.1-win-x64/htpp/Image/${Random[mathh]}.jpg`);
-          script.setAttribute("width", "20");
-          script.setAttribute("height", "20");
-          document.body.insertBefore(script, document.getElementById("h1"));
-          ballRadius = 0; dy = 0; y = 0; x = 0; dx = 0;
-          }, 100)
-           */
-
-          elementD.style.width = 0
-          elementD.style.height = 0
-          let script = document.createElement("img");
-          script.setAttribute("src", `C:/Users/lukvaillancourt/Downloads/node-v18.12.1-win-x64/node-v18.12.1-win-x64/htpp/Image/a.jpg`);
+          script.setAttribute("src", `https://github.com/luke12343421/FSDAFEWQEDSAde/blob/main/a.jpg`);
           script.setAttribute("width", "1000");
           script.setAttribute("height", "1000");
           document.body.insertBefore(script, document.getElementById("h1"));
@@ -174,7 +158,6 @@ body {background-color: black;}
         default:
           break;
       }
-      // Bounce the ball off the walls
       if (-1 + y + dy < ballRadius) {
         dy = -dy + dd;
         dx = dx + dd
@@ -183,13 +166,11 @@ body {background-color: black;}
           dy = Math.floor(Math.random() * -dy - dd);
           points++
           dx++; dd++
-        } else {// Game over
+        } else {
 
           document.location.reload();
         }
       }
-
-      // Draw the paddle
       ctx.font = "16px Arial";
       ctx.fillStyle = "#0095DD";
       ctx.fillText("Points: " + points, 8, 20);
@@ -204,8 +185,6 @@ body {background-color: black;}
       ctx.fillStyle = "#0095DD";
       ctx.fill();
       ctx.closePath();
-
-      // Move the paddle if necessary
       if (rightPressed && paddleX < canvas.width - paddleWidth) {
         if (Boots == true) paddleX += 20;
         paddleX += 7;
@@ -229,11 +208,9 @@ body {background-color: black;}
 
     }
     draw()
-    // Call the draw function every 10 milliseconds
     setInterval(addSpeed, (10 * 1000));
     setInterval(timeMset, 1);
     setInterval(timeset, 1000);
-    //setInterval(draw, 10);
     }
   </script>
 </body>
