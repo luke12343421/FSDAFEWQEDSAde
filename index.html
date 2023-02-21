@@ -5,7 +5,10 @@
   <meta charset="utf-8">
 
   <style>
-body {background-color: black;}
+    body {
+      background-color: black;
+    }
+
     .menu {
       display: flex;
       justify-content: center;
@@ -30,11 +33,92 @@ body {background-color: black;}
       height: 500x;
       border: 1px solid whitesmoke;
     }
+
+    #pause-overlay {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      font-size: 3rem;
+      text-align: center;
+      z-index: 100;
+    }
+
+    #config {
+      display: none;
+      padding: 10px;
+      background-color: #fff1f1;
+      position: fixed;
+      top: 30%;
+      left: 40%;
+      width: 20%;
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .buttonpauseexit {
+      box-shadow: inset -11px -3px 15px 2px #29bbff;
+      background: linear-gradient(to bottom, #f72e2e 5%, #183147 100%);
+      background-color: #f72e2e;
+      border-radius: 42px;
+      display: inline-block;
+      cursor: pointer;
+      color: #ffffff;
+      font-family: Courier New;
+      font-size: 20px;
+      font-weight: bold;
+      font-style: italic;
+      padding: 17px 49px;
+      text-decoration: none;
+      text-shadow: 0px -3px 4px #1f0018;
+    }
+
+    .buttonpauseexit:hover {
+      background: linear-gradient(to bottom, #183147 5%, #f72e2e 100%);
+      background-color: #183147;
+    }
+
+    .buttonpauseexit:active {
+      position: relative;
+      top: 1px;
+    }
   </style>
 </head>
 
 <body>
+  <div id="pause-overlay">
+    <p>PAUSE</p>
+    <br><br>
+    <a href="#" class="buttonpauseexit" , type="button" , id="exitPause">exit</a>
 
+  </div>
+  <div id="config">
+    <span onclick="document.getElementById('config').style.display='none'" class="close"
+      title="Close Config">&times;</span>
+    <h2>Settings</h2>
+    <form>
+      <label for="Limite">Limit:</label>
+      <input type="checkbox" id="Ball_Limite" name="Ball_Limite"  checked=true>
+      <br><br>
+      <label for="Right">Right:</label>
+      <input type="tel" contextmenu="2" id="Right" name="ball-color" maxlength="1" value="d">
+      <br><br>
+      <label for="Left">Left:</label>
+      <input type="text" id="Left" name="ball-color" maxlength="1" value="a">
+      <br><br>
+      <label for="BootsTouche">Boots:</label>
+      <input type="text" id="BootsTouche" name="ball-color" maxlength="1" value="b">
+      <br><br>
+      <label for="ball-size">Ball Size:</label>
+      <label id="ball-size-text">13.3</label>
+      <input type="range" id="ball-size" name="ball-size" min="10.3" max="30.3" value="13.3">
+      <br><br>
+      <input type="button" value="Save" , id="save-button">
+    </form>
+  </div>
   <h1></h1>
   <div class="menu">
     <h1 style=color:white>Ping Pong</h1>
@@ -42,202 +126,281 @@ body {background-color: black;}
     <button onclick="StartGame()">Démarrer</button>
     <!-- Bouton pour afficher les règles -->
     <button onclick="showconfig()">Config</button>
-    
+
   </div>
   <div id="gameContainer"></div>
   <script>
+    var saveButton = document.getElementById("save-button");
+    var ballSizeInput = document.getElementById("ball-size");
+    ballSizeInput.oninput = function () {
+      var ballSize = ballSizeInput.value;
+      var ballSizeText = document.getElementById("ball-size-text");
+      ballSizeText.innerText = ballSize;
+    }
+    saveButton.onclick = function () {
+      document.getElementById('config').style.display = 'none'
+    }
     let points = 0;
     let time = 0;
     let speed = 1;
     let timem = 0
     let timesm = 0
     let Start = false;
-    function restest(a){
-        if(a == true) {
-            document.getElementById("gameContainer").removeChild(canvas)
-            points = 0;
-     time = 0;
-     speed = 1;
-     timem = 0;
-     timesm = 0;
-     StartGame()
-        }
-     points = 0;
-     time = 0;
-     speed = 1;
-     timem = 0;
-     timesm = 0;
-     Start = false
+    function restest(a) {
+      if (a == true) {
+
+
+        return StartGame()
+      }
+      points = 0;
+      time = 0;
+      speed = 1;
+      timem = 0;
+      timesm = 0;
+      Start = false
       document.querySelector(".menu").style.display = "flex";
       // flex
     }
-    function showconfig(params) {
-      
+    function showconfig() {
+      document.getElementById('config').style.display = 'block'
+      return
     }
     function StartGame() {
-        Start = true
+      Start = true
       document.querySelector(".menu").style.display = "none";
       var elementD = document.getElementById('gameContainer');
       elementD.style.height = 1000
-      
+
       elementD.style.width = 500
-          //   <div id="gameContainer"></div>
-    // Set up the canvas
+      //   <div id="gameContainer"></div>
+      // Set up the canvas
 
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-    canvas.width = 1000;
-    canvas.height = 600;
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = 1000;
+      canvas.height = 600;
 
-    document.getElementById("gameContainer").appendChild(canvas);
+      document.getElementById("gameContainer").appendChild(canvas);
+      // Set up the ball
+      let x = canvas.width / 2;
+      let y = canvas.height - 30;
+      let dx = Math.floor(Math.random() * 6) + 3;
+      let dy = -5;
+      let dd = 0;
+      let ballRadius = document.getElementById("ball-size").value;
 
-    // Set up the ball
-    let x = canvas.width / 2;
-    let y = canvas.height - 30;
-    let dx = Math.floor(Math.random() * 6) + 3;
-    let dy = -5;
-    let dd = 0;
-    let ballRadius = 13.3;
+      // Set up the paddles
+      let pause = false
+      let Boots = false
+      let paddleHeight = 10;
+      let paddleWidth = 100;
+      let paddleX = (canvas.width - paddleWidth) / 2;
+      let rightPressed = false;
+      let leftPressed = false;
 
-    // Set up the paddles
-    let Boots = false
-    let paddleHeight = 11;
-    let paddleWidth = 100;
-    let paddleX = (canvas.width - paddleWidth) / 2;
-    let rightPressed = false;
-    let leftPressed = false;
+      // Handle keyboard input
+      document.addEventListener("keydown", keyDownHandler, false);
+      document.addEventListener("keyup", keyUpHandler, false);
 
-    // Handle keyboard input
-    document.addEventListener("keydown", keyDownHandler, false);
-    document.addEventListener("keyup", keyUpHandler, false);
-
-    function keyDownHandler(e) {
-      if (e.key === "b") {
-        Boots = true;
-      }
-      if (e.key === "a") {
-        leftPressed = true;
-      } else if (e.key === "d") {
-        rightPressed = true;
-      }
-      if (e.key == "Right" || e.key == "ArrowRight") {
-        rightPressed = true;
-      } else if (e.key == "Left" || e.key == "ArrowLeft") {
-        leftPressed = true;
-      }
-    }
-
-    function keyUpHandler(e) {
-      if (e.key === "b") {
-        Boots = false;
-      }
-      if (e.key === "a") {
-        leftPressed = false;
-      } else if (e.key === "d") {
-        rightPressed = false;
-      }
-      if (e.key == "Right" || e.key == "ArrowRight") {
-        rightPressed = false;
-      } else if (e.key == "Left" || e.key == "ArrowLeft") {
-        leftPressed = false;
-      }
-    }
-    // Draw everything on the canvas
-    function draw() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Draw the ball
-      ctx.beginPath();
-      ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-      ctx.fillStyle = "#0095DD";
-      ctx.fill();
-
-      // Move the ball
-      if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
-        dx = (-dx - dd);
-        dy = dy + dd;
-      }
-      x += dx + dd;
-      y += dy + -dd;
-      if(x > 1020)  restest(true)
-      //x += Math.floor(Math.random() * x + dx > canvas.width - ballRadius || x + dx < ballRadius ? (Math.floor(Math.random() * 7) + 3):1) + dx;
-      //y += Math.floor(Math.random() * x + dx > canvas.width - ballRadius || x + dx < ballRadius ? (Math.floor(Math.random() * 7) + 3):1) + dy;
-      ctx.fillText(`x: ${x.toFixed(1)} dx: ${dx.toFixed(1)} y: ${y.toFixed(1)} dy: ${dy.toFixed(1)}`, 200, 90)
-      ctx.closePath();
-      switch (points) {
-        case 1000:
-          elementD.style.width = 0
-          elementD.style.height = 0
-          let script = document.createElement("img");
-          script.setAttribute("src", `https://github.com/luke12343421/FSDAFEWQEDSAde/blob/main/a.jpg`);
-          script.setAttribute("width", "1000");
-          script.setAttribute("height", "1000");
-          document.body.insertBefore(script, document.getElementById("h1"));
-          return;
-
-        default:
-          break;
-      }
-      if (-1 + y + dy < ballRadius) {
-        dy = -dy + dd;
-        dx = dx + dd
-      } else if (y + dy > canvas.height - ballRadius) {
-        if (x > paddleX && x < paddleX + paddleWidth) {
-          dy = Math.floor(Math.random() * -dy - dd);
-          points++
-          dx++; dd += 0.5
-        } else {
-            document.getElementById("gameContainer").removeChild(canvas)
-          restest()
+      function keyDownHandler(e) {
+        if (e.key === "p") {
+          pause = pause ? false : true;
+        }
+        if (e.key === document.getElementById("BootsTouche").value) {
+          Boots = true;
+        }
+        if (e.key === document.getElementById("Left").value) {
+          leftPressed = true;
+        } else if (e.key === document.getElementById("Right").value) {
+          rightPressed = true;
+        }
+        if (e.key == "Right" || e.key == "ArrowRight") {
+          rightPressed = true;
+        } else if (e.key == "Left" || e.key == "ArrowLeft") {
+          leftPressed = true;
         }
       }
-      ctx.font = "16px Arial";
-      ctx.fillStyle = "#0095DD";
-      ctx.fillText("Points: " + points, 8, 20);
-      ctx.font = "16px Arial";
-      ctx.fillStyle = "#0095DD";
-      ctx.fillText(`${time}s`, 200, 20);
-      ctx.font = "16px Arial";
-      ctx.fillStyle = "#0095DD";
-      ctx.fillText(`${timesm}ms`, 200, 40);
-      ctx.beginPath();
-      ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
-      ctx.fillStyle = "#0095DD";
-      ctx.fill();
-      ctx.closePath();
-      if (rightPressed && paddleX < canvas.width - paddleWidth) {
-        if (Boots == true) paddleX += 20;
-        paddleX += 7;
-      } else if (leftPressed && paddleX > 0) {
-        if (Boots == true) paddleX -= 20;
-        paddleX -= 7;
-      }
 
-      requestAnimationFrame(draw);
-    }
-    function timeset(params) {
-      time += 1
-      timesm = (time * 1000).toFixed(1)
-    }
-    function timeMset(params) {
-      if (timem == 100) {
-        timesm += 1; timem = 0
+      function keyUpHandler(e) {
+        if (e.key === document.getElementById("BootsTouche").value) {
+          Boots = false;
+        }
+        if (e.key === document.getElementById("Left").value) {
+          leftPressed = false;
+        } else if (e.key === document.getElementById("Right").value) {
+          rightPressed = false;
+        }
+        if (e.key == "Right" || e.key == "ArrowRight") {
+          rightPressed = false;
+        } else if (e.key == "Left" || e.key == "ArrowLeft") {
+          leftPressed = false;
+        }
       }
-      timem += 1
-    }
-    function addSpeed(params) {
+      // Draw everything on the canvas
+      function draw() {
+        if (pause == true) {
+          // exitPause
+          document.getElementById("pause-overlay").style.display = "block"
+          document.getElementById("exitPause").onclick = function () {
+            pause = false
+            document.getElementById("gameContainer").removeChild(canvas)
+            document.getElementById("pause-overlay").style.display = "none"
+            return restest()
+          }
+        } else {
+          document.getElementById('config').style.display = 'none'
+          document.getElementById("pause-overlay").style.display = "none"
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    }
-    draw()
-function LocalRestartFunction() {
-        if(Start == false) return;  
-    setTimeout(() => {
-        timeset()
-        LocalRestartFunction()
-    }, 1000);     
-    
-    }
-    LocalRestartFunction()
+          // Draw the ball
+          ctx.beginPath();
+          ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+          ctx.fillStyle = "#FFD100";
+          ctx.fill();
+
+          // Move the ball
+          switch (dx.toFixed(0) * 1) {
+            case -1:
+            case -2:
+            case -3:
+            case -4:
+              dx = -5
+              break;
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+              dx = 5
+              break;
+
+            default:
+
+              break;
+          }
+          switch (dy.toFixed(0) * 1) {
+            case -1:
+            case -2:
+            case -3:
+            case -4:
+              dy = -5
+              break;
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+              dy = 5
+              break;
+
+            default:
+              break;
+          }
+          if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
+            dx = (-dx - dd);
+            dy = dy + dd++;
+          }
+          x += dx + dd;
+          y += dy + -dd;
+          if (document.getElementById("Ball_Limite").checked == true) {
+            if (dd >= 2) {
+              dd = dd - 2 + 0.5
+            }
+          }
+          if (x > 1010) {
+            Start = false
+            document.getElementById("gameContainer").removeChild(canvas)
+            return restest(true)
+          } else if (y < -100) {
+            Start = false
+            document.getElementById("gameContainer").removeChild(canvas)
+            return restest(true)
+          }
+          //x += Math.floor(Math.random() * x + dx > canvas.width - ballRadius || x + dx < ballRadius ? (Math.floor(Math.random() * 7) + 3):1) + dx;
+          //y += Math.floor(Math.random() * x + dx > canvas.width - ballRadius || x + dx < ballRadius ? (Math.floor(Math.random() * 7) + 3):1) + dy;
+          ctx.fillText(`x: ${x.toFixed(1)} dx: ${dx.toFixed(1)} y: ${y.toFixed(1)} dy: ${dy.toFixed(1)}`, 200, 90)
+          switch (points) {
+            case Infinity:
+              elementD.style.width = 0
+              elementD.style.height = 0
+              let script = document.createElement("img");
+              script.setAttribute("src", `https://github.com/luke12343421/FSDAFEWQEDSAde/blob/main/a.jpg`);
+              script.setAttribute("width", "1000");
+              script.setAttribute("height", "1000");
+              document.body.insertBefore(script, document.getElementById("h1"));
+              return;
+
+            default:
+              break;
+          }
+
+          ctx.fillText("Debug:", 200, 70)
+          ctx.fillText(`${paddleX}, ${x}, ${paddleWidth}`, 200, 130)
+          ctx.closePath();
+          if (y + dy < ballRadius) {
+            dy = -dy + dd;
+            dx = dx + dd
+          } else if (y + dy > canvas.height - ballRadius) {
+            if (x > paddleX && x < paddleX + paddleWidth) {
+              dy = Math.floor(Math.random() * -dy - dd) - 1;
+              points++
+              dx++; dd += 0.5
+            } else {
+              if (y + dy - 20 > canvas.height - ballRadius) {
+                document.getElementById("gameContainer").removeChild(canvas)
+                restest()
+              } else {
+
+              }
+            }
+          }
+          ctx.font = "16px Arial";
+          ctx.fillStyle = "#0095DD";
+          ctx.fillText("Points: " + points, 8, 20);
+          ctx.font = "16px Arial";
+          ctx.fillStyle = "#0095DD";
+          ctx.fillText(`${time}s`, 200, 20);
+          ctx.font = "16px Arial";
+          ctx.fillStyle = "#0095DD";
+          ctx.fillText(`${timesm}ms`, 200, 40);
+          ctx.beginPath();
+          ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
+          ctx.fillStyle = "#0095DD";
+          ctx.fill();
+          ctx.closePath();
+          if (rightPressed && paddleX < canvas.width - paddleWidth) {
+            if (Boots == true) paddleX += 10;
+            paddleX += 7;
+          } else if (leftPressed && paddleX > 0) {
+            if (Boots == true) paddleX -= 10;
+            paddleX -= 7;
+          }
+        }
+        requestAnimationFrame(draw);
+      }
+      function timeset(params) {
+        time += 1
+        timesm = (time * 1000).toFixed(1)
+      }
+      function timeMset(params) {
+        if (timem == 100) {
+          timesm += 1; timem = 0
+        }
+        timem += 1
+      }
+      function addSpeed(params) {
+
+      }
+      draw()
+      function LocalRestartFunction() {
+        if (Start == false) return;
+        setTimeout(() => {
+          timeset()
+          LocalRestartFunction()
+        }, 1000);
+
+      }
+      LocalRestartFunction()
 
 
     }
