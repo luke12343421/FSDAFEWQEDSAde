@@ -1,124 +1,129 @@
 <!DOCTYPE html>
 <html>
 
-<head>
-  <meta charset="utf-8">
+  <head>
+    <meta charset="utf-8">
 
-  <style>
-    body {
-      background-color: black;
-    }
+    <style>
+      body {
+        background-color: black;
+      }
 
-    .menu {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      .menu {
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-      height: 100vh;
-    }
+        height: 100vh;
+      }
 
-    .menu h1 {
-      font-size: 36px;
-      margin: 0;
-    }
+      .menu h1 {
+        font-size: 36px;
+        margin: 0;
+      }
 
-    .menu button {
-      font-size: 24px;
-      padding: 10px 20px;
-      margin: 20px;
-    }
+      .menu button {
+        font-size: 24px;
+        padding: 10px 20px;
+        margin: 20px;
+      }
 
-    #gameContainer {
-      width: 1000px;
-      height: 500x;
-      border: 1px solid whitesmoke;
-    }
+      #gameContainer {
+        width: 1000px;
+        height: 500x;
+        border: 1px solid whitesmoke;
+      }
 
-    #pause-overlay {
-      display: none;
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      color: white;
-      font-size: 3rem;
-      text-align: center;
-      z-index: 100;
-    }
+      #pause-overlay {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        color: white;
+        font-size: 3rem;
+        text-align: center;
+        z-index: 100;
+      }
 
-    #config {
-      display: none;
-      padding: 10px;
-      background-color: #fff1f1;
-      position: fixed;
-      top: 30%;
-      left: 40%;
-      width: 20%;
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    }
+      #config {
+        display: none;
+        padding: 10px;
+        background-color: #fff1f1;
+        position: fixed;
+        top: 30%;
+        left: 40%;
+        width: 20%;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      }
 
-    .buttonpauseexit {
-      box-shadow: inset -11px -3px 15px 2px #29bbff;
-      background: linear-gradient(to bottom, #f72e2e 5%, #183147 100%);
-      background-color: #f72e2e;
-      border-radius: 42px;
-      display: inline-block;
-      cursor: pointer;
-      color: #ffffff;
-      font-family: Courier New;
-      font-size: 20px;
-      font-weight: bold;
-      font-style: italic;
-      padding: 17px 49px;
-      text-decoration: none;
-      text-shadow: 0px -3px 4px #1f0018;
-    }
+      .buttonpauseexit {
+        box-shadow: inset -11px -3px 15px 2px #29bbff;
+        background: linear-gradient(to bottom, #f72e2e 5%, #183147 100%);
+        background-color: #f72e2e;
+        border-radius: 42px;
+        display: inline-block;
+        cursor: pointer;
+        color: #ffffff;
+        font-family: Courier New;
+        font-size: 20px;
+        font-weight: bold;
+        font-style: italic;
+        padding: 17px 49px;
+        text-decoration: none;
+        text-shadow: 0px -3px 4px #1f0018;
+      }
 
-    .buttonpauseexit:hover {
-      background: linear-gradient(to bottom, #183147 5%, #f72e2e 100%);
-      background-color: #183147;
-    }
+      .buttonpauseexit:hover {
+        background: linear-gradient(to bottom, #183147 5%, #f72e2e 100%);
+        background-color: #183147;
+      }
 
-    .buttonpauseexit:active {
-      position: relative;
-      top: 1px;
-    }
-  </style>
-</head>
+      .buttonpauseexit:active {
+        position: relative;
+        top: 1px;
+      }
+    </style>
+  </head>
 
-<body>
-  <div id="pause-overlay">
-    <p>PAUSE</p>
-    <br><br>
-    <a href="#" class="buttonpauseexit" , type="button" , id="exitPause">exit</a>
-
-  </div>
-  <div id="config">
-    <span onclick="document.getElementById('config').style.display='none'" class="close"
-      title="Close Config">&times;</span>
-    <h2>Settings</h2>
-    <form>
-      <label for="Limite">Limit:</label>
-      <input type="checkbox" id="Ball_Limite" name="Ball_Limite"  checked=true>
+  <body>
+    <div id="pause-overlay">
+      <p>PAUSE</p>
       <br><br>
-      <label for="Right">Right:</label>
-      <input type="tel" contextmenu="2" id="Right" name="ball-color" maxlength="1" value="d">
-      <br><br>
-      <label for="Left">Left:</label>
-      <input type="text" id="Left" name="ball-color" maxlength="1" value="a">
-      <br><br>
-      <label for="BootsTouche">Boots:</label>
-      <input type="text" id="BootsTouche" name="ball-color" maxlength="1" value="b">
-      <br><br>
-      <label for="ball-size">Ball Size:</label>
-      <label id="ball-size-text">13.3</label>
-      <input type="range" id="ball-size" name="ball-size" min="10.3" max="30.3" value="13.3">
-      <br><br>
-      <input type="button" value="Save" , id="save-button">
-    </form>
-  </div>
+      <a href="#" class="buttonpauseexit" , type="button" , id="exitPause">exit</a>
+
+    </div>
+    <div id="config">
+      <span onclick="document.getElementById('config').style.display='none'" class="close"
+        title="Close Config">&times;</span>
+      <h2>Settings</h2>
+      <form>
+        <label for="Limite">Limit:</label>
+        <input type="checkbox" id="Ball_Limite" name="Ball_Limite" checked=true>
+        <input type="range" id="limt" min="0.5" max="200" value="4">
+        <br><br>
+        <label for="Right">Right:</label>
+        <input type="text" contextmenu="2" id="Right" name="Right" maxlength="1" value="d" onfocus="listenForKey(this)">
+        <br><br>
+        <label for="Left">Left:</label>
+        <input type="text" id="Left" name="Left" maxlength="1" value="a" onfocus="listenForKey(this)">
+        <br><br>
+        <label for="BootsTouche">Boots:</label>
+        <input type="text" id="BootsTouche" name="Boots" maxlength="1" value="b" onfocus="listenForKey(this)">
+        <br><br>
+        <label for="ball-size">Ball Size:</label>
+        <label id="ball-size-text">13.3</label>
+        <input type="range" id="ball-size" name="ball-size" min="10.3" max="30.3" value="13.3">
+        <br><br>
+        <label for="Speedmin_txte">Speedmin:</label>
+        <label id="Speedmin_txt">5</label>
+        <input type="range" id="Speedmin" name="Speedmin" min="1" max="30" value="5">
+        <br><br>
+        <input type="button" value="Save" , id="save-button">
+      </form>
+    </div>
   <h1></h1>
   <div class="menu">
     <h1 style=color:white>Ping Pong</h1>
@@ -130,11 +135,23 @@
   </div>
   <div id="gameContainer"></div>
   <script>
+    function listenForKey(inputField) {
+  window.addEventListener("keydown", function(event) {
+    event.preventDefault(); // prevent the default action of the key press (e.g. scrolling the page)
+    inputField.value = event.key; // fill in the input field with the name of the pressed key
+  }, {once: true}); // add the event listener only once, so that it doesn't keep listening for key presses
+}
     var saveButton = document.getElementById("save-button");
     var ballSizeInput = document.getElementById("ball-size");
+    var Speedmin_txte = document.getElementById("Speedmin");
     ballSizeInput.oninput = function () {
       var ballSize = ballSizeInput.value;
       var ballSizeText = document.getElementById("ball-size-text");
+      ballSizeText.innerText = ballSize;
+    }
+    Speedmin_txte.oninput = function () {
+      var ballSize = Speedmin_txte.value;
+      var ballSizeText = document.getElementById("Speedmin_txt");
       ballSizeText.innerText = ballSize;
     }
     saveButton.onclick = function () {
@@ -205,15 +222,15 @@
       function keyDownHandler(e) {
         if (e.key === "p") {
           pause = pause ? false : true;
-        }
+        } else
         if (e.key === document.getElementById("BootsTouche").value) {
           Boots = true;
-        }
+        } else
         if (e.key === document.getElementById("Left").value) {
           leftPressed = true;
         } else if (e.key === document.getElementById("Right").value) {
           rightPressed = true;
-        }
+        }  else
         if (e.key == "Right" || e.key == "ArrowRight") {
           rightPressed = true;
         } else if (e.key == "Left" || e.key == "ArrowLeft") {
@@ -222,14 +239,15 @@
       }
 
       function keyUpHandler(e) {
+        console.log(e.key === document.getElementById("BootsTouche").value)
         if (e.key === document.getElementById("BootsTouche").value) {
           Boots = false;
-        }
+        } else
         if (e.key === document.getElementById("Left").value) {
           leftPressed = false;
         } else if (e.key === document.getElementById("Right").value) {
           rightPressed = false;
-        }
+        } else
         if (e.key == "Right" || e.key == "ArrowRight") {
           rightPressed = false;
         } else if (e.key == "Left" || e.key == "ArrowLeft") {
@@ -259,42 +277,11 @@
           ctx.fill();
 
           // Move the ball
-          switch (dx.toFixed(0) * 1) {
-            case -1:
-            case -2:
-            case -3:
-            case -4:
-              dx = -5
-              break;
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-              dx = 5
-              break;
-
-            default:
-
-              break;
-          }
-          switch (dy.toFixed(0) * 1) {
-            case -1:
-            case -2:
-            case -3:
-            case -4:
-              dy = -5
-              break;
-            case 0:
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-              dy = 5
-              break;
-
-            default:
-              break;
+          for (let i = 0; i < document.getElementById("Speedmin").value * 1; i++) {
+            if(dx.toFixed(0) == i) {dx = document.getElementById("Speedmin").value * 1}
+            if(dx.toFixed(0) == -i) {dx = -document.getElementById("Speedmin").value * 1}
+            if(dy.toFixed(0) == i) {dy = document.getElementById("Speedmin").value * 1}
+            if(dy.toFixed(0) == -i) {dy = -document.getElementById("Speedmin").value * 1}
           }
           if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
             dx = (-dx - dd);
